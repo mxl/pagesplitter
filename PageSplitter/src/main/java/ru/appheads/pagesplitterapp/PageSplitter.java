@@ -81,7 +81,7 @@ public class PageSplitter {
      	/*
      	 * the appendedText should be placed in a new line.
      	 */
-        if (offset == 0 && oneCharWidth + currentLineWidth > pageWidth)
+        if (offset == 0 || oneCharWidth + currentLineWidth > pageWidth)
         {
         	bStartNewLine = true;
         }
@@ -127,11 +127,11 @@ public class PageSplitter {
         		textWidth = (int) Math.ceil(textPaint.measureText(appendedText, offset, offset + leftCharNum));
         		textWidthR = (int) Math.ceil(textPaint.measureText(appendedText, offset, offset + leftCharNum + 1));
         		
-        		if (textWidth < leftLineWidth && textWidthR  >= leftLineWidth)
+        		if (textWidth <= leftLineWidth && textWidthR  > leftLineWidth)
         		{
         			break;
         		}
-        		else if (textWidthR < leftLineWidth)
+        		else if (textWidthR <= leftLineWidth)
         		{
         			start = offset + leftCharNum;
         		}
@@ -162,9 +162,9 @@ public class PageSplitter {
         	 */
         	if (bStartNewLine)
         	{
-				checkForPageEnd();
-				appendLineToPage(textLineHeight);
 				appendTextToLine(subSentence, textPaint, textWidth);
+				appendLineToPage(textLineHeight);
+				checkForPageEnd();
         	}
         	else 
         	{
